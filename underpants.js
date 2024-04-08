@@ -20,7 +20,10 @@ var _ = {};
 *   _.identity(5) === 5
 *   _.identity({a: "b"}) === {a: "b"}
 */
-
+_.identity = function(value) {
+    
+    return value;
+}
 
 /** _.typeOf
 * Arguments:
@@ -42,6 +45,31 @@ var _ = {};
 * _.typeOf([1,2,3]) -> "array"
 */
 
+_.typeOf = function(value) {
+    if (Array.isArray(value)) {
+        return 'array';
+    }
+    if (typeof value === 'string') {
+        return 'string';
+    }
+    if (typeof value === 'undefined') {
+        return 'undefined';
+    }
+    if (typeof value === 'number') {
+        return 'number';
+    }
+    if (typeof value === 'boolean') {
+        return 'boolean';
+    }
+    if (value === null) {
+        return 'null';
+    }
+    if (typeof value === 'function') {
+        return 'function';
+    }
+        return 'object';
+    
+}
 
 /** _.first
 * Arguments:
@@ -60,6 +88,22 @@ var _ = {};
 *   _.first(["a", "b", "c"], 1) -> "a"
 *   _.first(["a", "b", "c"], 2) -> ["a", "b"]
 */
+_.first = function(arr, num) {
+    if (!Array.isArray(arr)) {
+        return [];
+    }
+     if (num === undefined || typeof num !== 'number') {
+        return arr[0];
+    }
+     if (num < 0) {
+        return [];
+    }
+    if (num > arr.length) {
+        return arr;
+    }
+    return arr.slice(0, num);
+}
+
 
 
 /** _.last
@@ -79,7 +123,21 @@ var _ = {};
 *   _.last(["a", "b", "c"], 1) -> "c"
 *   _.last(["a", "b", "c"], 2) -> ["b", "c"]
 */
-
+_.last = function(arr, num) {
+if (!Array.isArray(arr)) {
+    return [];
+}
+ if (num === undefined || typeof num !== 'number') {
+    return arr[arr.length - 1];
+}
+ if (num < 0) {
+    return [];
+}
+if (num >= arr.length) {
+    return arr;
+}
+return arr.slice(arr.length - num);
+}
 
 /** _.indexOf
 * Arguments:
@@ -96,6 +154,14 @@ var _ = {};
 *   _.indexOf(["a","b","c"], "c") -> 2
 *   _.indexOf(["a","b","c"], "d") -> -1
 */
+_.indexOf = function(array, value) {
+    for (let i = 0; i < array.length; i++) {
+        if (array[i] === value) {
+            return i;
+        }
+    }
+    return -1;
+}
 
 
 /** _.contains
@@ -112,7 +178,14 @@ var _ = {};
 * Examples:
 *   _.contains([1,"two", 3.14], "two") -> true
 */
-
+_.contains = function(array, value) {
+    for (let i = 0; i < array.length; i++) {
+        if (array[i] === value) {{
+            return true;
+        }}
+    }
+    return false;
+}
 
 /** _.each
 * Arguments:
@@ -130,6 +203,9 @@ var _ = {};
 *      -> should log "a" "b" "c" to the console
 */
 
+_.each = function(collection, func) {
+
+}
 
 /** _.unique
 * Arguments:
