@@ -449,34 +449,36 @@ _.every = function(collection, func) {
 *   _.some([1,2,3], function(e){return e % 2 === 0}) -> true
 */
 _.some = function(collection, func) {
-    // Check if test is not a function or not provided
-    if (typeof func !== 'function') {
-      test = (value) => !!value; // Convert to boolean
-    }
-  
-    // Handle array
-    if (Array.isArray(collection)) {
-      for (let i = 0; i < collection.length; i++) {
-        if (func(collection[i], i, collection)) {
-           return true;
-        }
-          }
+  let isTruthyFound = false;
 
+  // Check if func is a function, otherwise set it to check truthiness
+  if (typeof func !== 'function') {
+    func = (value) => !!value;
+  }
+
+  if (Array.isArray(collection)) {
+    // Handle the case where collection is an array
+    for (let i = 0; i < collection.length; i++) {
+      if (func(collection[i], i, collection)) {
+        isTruthyFound = true;
+        break;
+      }
     }
-    // Handle object
-    else if (typeof collection === 'object' && collection !== null) {
-      for (const key in collection) {
-        if (collection.hasOwnProperty(key)) {
-          if (func(collection[key], key, collection)) {
-            return true;
-          } 
+  } else if (typeof collection === 'object' && collection !== null) {
+    // Handle the case where collection is an object
+    for (const key in collection) {
+      if (collection.hasOwnProperty(key)) {
+        if (func(collection[key], key, collection)) {
+          isTruthyFound = true;
+          break;
         }
       }
     }
-  
-    // If no elements pass the test
-    return false;
   }
+
+  return isTruthyFound;
+}
+
 
 
 /** _.reduce
