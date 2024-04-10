@@ -457,14 +457,19 @@ _.some = function(collection, func) {
     // Handle array
     if (Array.isArray(collection)) {
       for (let i = 0; i < collection.length; i++) {
-        if (func(collection[i], i, collection)) return true;
-      }
+        if (func(collection[i], i, collection)) {
+           return true;
+        }
+          }
+
     }
     // Handle object
     else if (typeof collection === 'object' && collection !== null) {
       for (const key in collection) {
         if (collection.hasOwnProperty(key)) {
-          if (func(collection[key], key, collection)) return true;
+          if (func(collection[key], key, collection)) {
+            return true;
+          } 
         }
       }
     }
@@ -524,6 +529,9 @@ _.reduce = function(array, func, seed) {
 *   _.extend(data, {b:"two"}); -> data now equals {a:"one",b:"two"}
 *   _.extend(data, {a:"two"}); -> data now equals {a:"two"}
 */
+_.extend = function(target, ...sources) {
+  return Object.assign(target, ...sources);
+}
 
 //////////////////////////////////////////////////////////////////////
 // DON'T REMOVE THIS CODE ////////////////////////////////////////////
