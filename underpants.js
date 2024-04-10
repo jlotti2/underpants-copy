@@ -204,8 +204,24 @@ _.contains = function(array, value) {
 */
 
 _.each = function(collection, func) {
-
-}
+    // Check if the collection is an array
+    if (Array.isArray(collection)) {
+      // Iterate over the array
+      for (let i = 0; i < collection.length; i++) {
+        // Call the passed function with element, index, and collection
+        func(collection[i], i, collection);
+      }
+    } else if (typeof collection === 'object' && collection !== null) {
+      // The collection is an object, iterate over its properties
+      for (const key in collection) {
+        // Check if the property is directly on the object and not on its prototype chain
+        if (collection.hasOwnProperty(key)) {
+          // Call the passed function with value, key, and collection
+          func(collection[key], key, collection);
+        }
+      }
+    }
+  }
 
 /** _.unique
 * Arguments:
@@ -216,6 +232,15 @@ _.each = function(collection, func) {
 * Examples:
 *   _.unique([1,2,2,4,5,6,5,2]) -> [1,2,4,5,6]
 */
+_.unique = function(array) {
+    let newArray = [];
+    for (let i = 0; i < array.length; i++) {
+        if (_.indexOf(newArray, array[i]) === -1) {
+            newArray.push(array[i]);
+        }
+    }
+    return newArray;
+}
 
 
 /** _.filter
@@ -233,6 +258,15 @@ _.each = function(collection, func) {
 * Extra Credit:
 *   use _.each in your implementation
 */
+_.filter = function(array, func) {
+    let newArray = [];
+    _.each(array, function(element, index, array) {
+        if (func(element, index, array)) {
+            newArray.push(element);
+        }
+    });
+    return newArray;
+}
 
 
 /** _.reject
