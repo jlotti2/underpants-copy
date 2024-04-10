@@ -281,6 +281,15 @@ _.filter = function(array, func) {
 * Examples:
 *   _.reject([1,2,3,4,5], function(e){return e%2 === 0}) -> [1,3,5]
 */
+_.reject = function(array, func) {
+    let newArray = [];
+    array.forEach(function(element, index, collection) {
+        if (!func(element, index, collection)) {
+            newArray.push(element);
+        }
+    }) 
+    return newArray;
+}
 
 
 /** _.partition
@@ -301,6 +310,17 @@ _.filter = function(array, func) {
 *   }); -> [[2,4],[1,3,5]]
 }
 */
+_.partition = function(array, func) {
+    // First sub-array contains elements for which the callback returns true
+  const truthyValues = array.filter((element, index) => func(element, index, array));
+  
+  // Second sub-array contains elements for which the callback returns false
+  const falsyValues = array.filter((element, index) => !func(element, index, array));
+  
+  // Combine both arrays into one containing two sub-arrays
+  return [truthyValues, falsyValues];
+
+}
 
 
 /** _.map
@@ -318,6 +338,28 @@ _.filter = function(array, func) {
 * Examples:
 *   _.map([1,2,3,4], function(e){return e * 2}) -> [2,4,6,8]
 */
+_.map = function(collection, func) {
+    // Initialize a new array to hold the results
+    let newArray = [];
+
+    // Check if the collection is an array
+    if (Array.isArray(collection)) {
+        // Iterate over the array
+        for (let i = 0; i < collection.length; i++) {
+            // Apply the function to each element and add the result to newArray
+            newArray.push(func(collection[i], i, collection));
+        }
+    } else if (typeof collection === 'object') { // Check if the collection is an object
+        // Iterate over the object's properties
+        for (let key in collection) {
+            // Apply the function to each value and add the result to newArray
+            newArray.push(func(collection[key], key, collection));
+        }
+    }
+
+    // Return the new array with the results
+    return newArray;
+};
 
 
 /** _.pluck
