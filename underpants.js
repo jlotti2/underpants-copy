@@ -372,6 +372,12 @@ _.map = function(collection, func) {
 * Examples:
 *   _.pluck([{a: "one"}, {a: "two"}], "a") -> ["one", "two"]
 */
+// Implementation of _.pluck
+_.pluck = function(arrayOfObjects, property) {
+    return _.map(arrayOfObjects, function(obj) {
+        return obj[property];
+    });
+};
 
 
 /** _.every
@@ -395,6 +401,32 @@ _.map = function(collection, func) {
 *   _.every([1,2,3], function(e){return e % 2 === 0}) -> false
 */
 
+_.every = function(collection, func) {
+  // Check if the test function is not provided
+  if (typeof func !== 'function') {
+    func = function(value) { return !!value; }; // Default test function that checks for truthiness
+  }
+
+  // Handle the case where the collection is an array
+  if (Array.isArray(collection)) {
+    for (let i = 0; i < collection.length; i++) {
+      if (!func(collection[i], i, collection)) {
+        return false; // Return false immediately if any test fails
+      }
+    }
+  } else { // Handle the case where the collection is an object
+    for (let key in collection) {
+      if (collection.hasOwnProperty(key)) { // Check only own properties
+        if (!func(collection[key], key, collection)) {
+          return false; // Return false immediately if any test fails
+        }
+      }
+    }
+  }
+
+  return true; // Return true if all tests pass
+};
+
 
 /** _.some
 * Arguments:
@@ -416,6 +448,30 @@ _.map = function(collection, func) {
 *   _.some([1,3,5], function(e){return e % 2 === 0}) -> false
 *   _.some([1,2,3], function(e){return e % 2 === 0}) -> true
 */
+_.some = function(collection, func) {
+    // Check if test is not a function or not provided
+    if (typeof func !== 'function') {
+      test = (value) => !!value; // Convert to boolean
+    }
+  
+    // Handle array
+    if (Array.isArray(collection)) {
+      for (let i = 0; i < collection.length; i++) {
+        if (func(collection[i], i, collection)) return true;
+      }
+    }
+    // Handle object
+    else if (typeof collection === 'object' && collection !== null) {
+      for (const key in collection) {
+        if (collection.hasOwnProperty(key)) {
+          if (func(collection[key], key, collection)) return true;
+        }
+      }
+    }
+  
+    // If no elements pass the test
+    return false;
+  }
 
 
 /** _.reduce
@@ -436,6 +492,22 @@ _.map = function(collection, func) {
 * Examples:
 *   _.reduce([1,2,3], function(previousSum, currentValue, currentIndex){ return previousSum + currentValue }, 0) -> 6
 */
+_.reduce = function(array, func, seed) {
+    let accumulator = seed;
+    let startIndex = 0;
+  
+    // If seed is not provided, use the first element as seed
+    if (accumulator === undefined) {
+      accumulator = array[0];
+      startIndex = 1; // Start from the second element
+    }
+  
+    for (let i = startIndex; i < array.length; i++) {
+      accumulator = func(accumulator, array[i], i);
+    }
+  
+    return accumulator;
+  }
 
 
 /** _.extend
